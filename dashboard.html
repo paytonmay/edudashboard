@@ -109,7 +109,7 @@
         tbody.innerHTML = '';
         results.data.forEach(row => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${row['CIP Code']}</td><td>${row['Position Title']}</td>`;
+          tr.innerHTML = `<td>${row['CIP Code']}</td><td>${row['Title']}</td>`;
           tbody.appendChild(tr);
         });
       }
