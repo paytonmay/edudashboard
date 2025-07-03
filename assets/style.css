@@ -31,8 +31,8 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f
 }
 .chart {
   position: relative; /* Added for better chart responsiveness */
-  height: 500px; /* Further increased height to better fit content */
-  overflow: hidden; /* Prevents content from overlapping other elements */
+  /* height has been removed to allow Chart.js to control it with aspectRatio */
+  /* overflow: hidden; /* Temporarily removed to see natural rendering */
 }
 .chart canvas {
   max-width: 100%;
