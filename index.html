@@ -8,39 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- PapaParse for CSV parsing -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-    .container { max-width: 1200px; margin: auto; padding: 20px; display: grid; gap: 20px; }
-    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
-    .filters select, .filters input { padding: 5px; border-radius: 4px; border: 1px solid #ccc; }
-    .kpi-cards { display: flex; gap: 20px; justify-content: space-between; }
-    .card { background: #fff; flex: 1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-    .card h2 { margin: 0; font-size: 2rem; }
-    .card p { margin: 0; color: #666; }
-    .charts-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    /* Adjust grid for larger screens to accommodate the new layout */
-    @media (min-width: 800px) {
-      .charts-grid {
-        grid-template-columns: 1fr 1fr; /* Default for two columns */
-      }
-      /* Specific styling for the chart items for the new layout */
-      .charts-grid > .chart:nth-child(1) { /* Supply vs Demand */
-        grid-column: 1 / -1; /* Span full width */
-      }
-      .charts-grid > .chart:nth-child(2) { /* Institution Output */
-        /* Will naturally flow into the first column of the next row */
-      }
-      .charts-grid > .chart:nth-child(3) { /* Retirement Projection */
-        /* Will naturally flow into the second column of the next row */
-      }
-    }
-    .chart, .table-container, .map-container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .table-container table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .table-container th, .table-container td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    .map-container { text-align: center; }
-    .map-container object { width: 100%; height: auto; }
-    .note { font-size: 0.9rem; color: #555; margin-top: -10px; margin-bottom: 10px; }
-  </style>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <div class="container">
