@@ -79,7 +79,24 @@
               { label: 'New Certs', data: certs, backgroundColor: 'rgba(54, 162, 235, 0.5)' }
             ]
           },
-          options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { font: { size: 10 } }
+              },
+              x: {
+                ticks: { font: { size: 10 } }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: { font: { size: 10 } }
+              }
+            }
+          }
         });
       }
     });
@@ -100,7 +117,25 @@
             labels: institutions,
             datasets: [{ label: 'Graduates', data: grads, backgroundColor: 'rgba(75, 192, 192, 0.5)' }]
           },
-          options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true } } }
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                beginAtZero: true,
+                ticks: { font: { size: 10 } }
+              },
+              y: {
+                ticks: { font: { size: 10 } }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: { font: { size: 10 } }
+              }
+            }
+          }
         });
       }
     });
@@ -126,7 +161,24 @@
               { label: 'Age 60-64', data: retire60_64, borderColor: 'rgba(153, 102, 255, 1)', fill: false }
             ]
           },
-          options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { font: { size: 10 } }
+              },
+              x: {
+                ticks: { font: { size: 10 } }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: { font: { size: 10 } }
+              }
+            }
+          }
         });
       }
     });
