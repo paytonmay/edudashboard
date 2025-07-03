@@ -18,8 +18,33 @@
     .card h2 { margin: 0; font-size: 2rem; }
     .card p { margin: 0; color: #666; }
     .charts-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    @media (min-width: 800px) { .charts-grid { grid-template-columns: 1fr 1fr; } }
-    .chart, .table-container, .map-container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    /* Adjust grid for larger screens to accommodate the new layout */
+    @media (min-width: 800px) {
+      .charts-grid {
+        grid-template-columns: 1fr 1fr; /* Default for two columns */
+      }
+      /* Specific styling for the chart items for the new layout */
+      .charts-grid > .chart:nth-child(1) { /* Supply vs Demand */
+        grid-column: 1 / -1; /* Span full width */
+      }
+      /* .charts-grid > .chart:nth-child(2) {} */ /* Institution Output - flows naturally */
+      /* .charts-grid > .chart:nth-child(3) {} */ /* Retirement Projection - flows naturally */
+    }
+    .chart, .table-container, .map-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .charts-grid > .chart { /* Apply to chart containers within the grid */
+      max-height: 450px; /* Constrain chart height */
+      display: flex;
+      flex-direction: column;
+    }
+    .charts-grid > .chart > canvas {
+      flex-grow: 1;
+      min-height: 0; /* Important for canvas resizing in flex container */
+    }
     .table-container table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     .table-container th, .table-container td { border: 1px solid #ddd; padding: 8px; text-align: left; }
     .map-container { text-align: center; }
@@ -76,29 +101,76 @@
     document.getElementById('projRetire').innerText = '3,800';
 
     // Supply vs Demand Chart
-    const specialties = ['Elementary','Math','ESL','Special Ed','Admin'];
-    const openings = [400,350,150,200,100];
-    const certs = [300,250,100,120,80];
-    new Chart('supplyDemandChart', {
-      type: 'bar', data: { labels: specialties, datasets: [{ label: 'Openings', data: openings },{ label: 'New Certs', data: certs }] },
-      options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    Papa.parse('data/supply_demand_specialty.csv', {
+      download: true, header: true, skipEmptyLines: true,
+      complete: function(results) {
+        const specialties = [];
+        const openings = [];
+        const certs = [];
+        results.data.forEach(row => {
+          specialties.push(row.Specialty);
+          openings.push(parseInt(row.Openings));
+          certs.push(parseInt(row.NewCerts));
+        });
+        new Chart('supplyDemandChart', {
+          type: 'bar',
+          data: {
+            labels: specialties,
+            datasets: [
+              { label: 'Openings', data: openings, backgroundColor: 'rgba(255, 99, 132, 0.5)' },
+              { label: 'New Certs', data: certs, backgroundColor: 'rgba(54, 162, 235, 0.5)' }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+      }
     });
 
     // Institution Output Chart
-    const institutions = ['Univ A','Univ B','Univ C','Univ D','Univ E','Univ F','Univ G','Univ H','Univ I','Univ J'];
-    const grads = [200,180,160,140,120,100,80,60,40,20];
-    new Chart('institutionChart', {
-      type: 'bar', data: { labels: institutions, datasets: [{ label: 'Graduates', data: grads }] },
-      options: { indexAxis: 'y', responsive: true, scales: { x: { beginAtZero: true } } }
+    Papa.parse('data/institution_output.csv', {
+      download: true, header: true, skipEmptyLines: true,
+      complete: function(results) {
+        const institutions = [];
+        const grads = [];
+        results.data.forEach(row => {
+          institutions.push(row.Institution);
+          grads.push(parseInt(row.Graduates));
+        });
+        new Chart('institutionChart', {
+          type: 'bar',
+          data: {
+            labels: institutions,
+            datasets: [{ label: 'Graduates', data: grads, backgroundColor: 'rgba(75, 192, 192, 0.5)' }]
+          },
+          options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { beginAtZero: true } } }
+        });
+      }
     });
 
     // Retirement Projection Chart
-    const years = Array.from({ length: 11 }, (_, i) => i);
-    const retire55 = [10,15,20,25,30,35,40,45,50,55,60];
-    const retire60 = [5,10,15,20,25,30,35,40,45,50,55];
-    new Chart('retireChart', {
-      type: 'line', data: { labels: years, datasets: [{ label: 'Age 55-59', data: retire55, fill: false },{ label: 'Age 60-64', data: retire60, fill: false }] },
-      options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    Papa.parse('data/retirement_projection.csv', {
+      download: true, header: true, skipEmptyLines: true,
+      complete: function(results) {
+        const years = [];
+        const retire55_59 = [];
+        const retire60_64 = [];
+        results.data.forEach(row => {
+          years.push(row.Year);
+          retire55_59.push(parseInt(row.RetirementsAge55_59));
+          retire60_64.push(parseInt(row.RetirementsAge60_64));
+        });
+        new Chart('retireChart', {
+          type: 'line',
+          data: {
+            labels: years,
+            datasets: [
+              { label: 'Age 55-59', data: retire55_59, borderColor: 'rgba(255, 159, 64, 1)', fill: false },
+              { label: 'Age 60-64', data: retire60_64, borderColor: 'rgba(153, 102, 255, 1)', fill: false }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+      }
     });
 
     // Load CIP positions CSV
